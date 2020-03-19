@@ -6,13 +6,17 @@ var BOMB = ''
 var LIFE;
 var lifeDOM = document.querySelector('.heart')
 var gMines = 12
-var minestoMiss = 12
+var minesToMiss = 12
+
+
+
 
 var time = document.querySelector('.timer')
 var timerIntreval;
 var countSafeNums = 0
 
 function init() {
+    // clearInterval(timerIntreval)
     document.querySelector('.smile').innerHTML = '<img onclick="resetGame()" src="imgs/normal.png">'
     gBoard = createBoard()
     renderBoard(gBoard)
@@ -21,7 +25,7 @@ function init() {
     }, false);
     LIFE = 3
     health()
-    victory()
+    
 
 }
 
@@ -69,7 +73,11 @@ function leftClick(el) {
     //update DOM
     renderBoardWithItems(newBoard)
     timer()
-
+    countSafeNums++
+    if (countSafeNums === boardSize **2 - minesToMiss) victory()
+    
+        
+   
 
     //    document.querySelector('.hidden first').classList.remove('hidden first')
     return el
@@ -85,7 +93,7 @@ function renderBoardWithItems(board) {
         strHTML += '<tr>'
         for (var j = 0; j < board.length; j++) {
             var BombCount = countBombs(i, j, board) + ''
-            if (board[i][j].isFirst) strHTML += `<td class ="hidden-first" onclick="removeHidden(this)"  oncontextmenu= "rightClick(this)"> ${BombCount}</td>`
+            if (board[i][j].isFirst) strHTML += `<td class ="hidden-first" onclick="removeHidden(this)" onload ="timer()"  oncontextmenu= "rightClick(this)"> ${BombCount}</td>`
             else if (board[i][j].isMine) strHTML += `<td  class = "bomb" onclick="showBomb(this)" oncontextmenu= "rightClick(this)">${BOMB}</td>`
             else strHTML += `<td class ="hidden" onclick="removeHidden(this),happy()" oncontextmenu= "rightClick(this)">${BombCount}</td>`
 
@@ -128,6 +136,14 @@ function gameOver() {
 }
 
 
+function victory() {
+   
+    clearInterval(timerIntreval)
+    document.querySelector('.smile').innerHTML = '<img onclick="resetGame()" src="imgs/cool.png">'
+
+}
+
+
 function rightClick(el) {
     el.innerHTML = '<img src="imgs/flag.png">'
 }
@@ -161,22 +177,29 @@ function health() {
 function easy() {
     boardSize = 4
     gMines = 2
-    minestoMiss = 2
+    minesToMiss = 2
     init()
+    clearInterval(timerIntreval)
+    time.innerHTML =`<h2> time :  0 </h2> `
 }
 
 function medium() {
     boardSize = 8
     gMines = 12
-     minestoMiss = 12
+    minesToMiss = 12
     init()
+    clearInterval(timerIntreval)
+    time.innerHTML =`<h2> time :  0 </h2> `
 }
 
 function hard() {
     boardSize = 12
     gMines = 30
-    minestoMiss = 30
+    minesToMiss = 30
     init()
+    clearInterval(timerIntreval)
+    time.innerHTML =`<h2> time :  0 </h2> `
+
 }
 
 
@@ -247,10 +270,3 @@ function timer() {
 // }
 
 
-function victory() {
-   var vic = boardSize **2 - minestoMiss
-console.log(vic);
-
-    
-
-}
