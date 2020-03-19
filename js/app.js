@@ -25,7 +25,7 @@ function init() {
     }, false);
     LIFE = 3
     health()
-    
+    countSafeNums = 0
 
 }
 
@@ -63,6 +63,7 @@ function renderBoard(board) {
 
 function leftClick(el) {
     //update MODAL
+
     var newBoard = UpdateWithBombs(gBoard)
     var ele = el
     var eleI = ele.dataset.i;
@@ -74,7 +75,7 @@ function leftClick(el) {
     renderBoardWithItems(newBoard)
     timer()
     countSafeNums++
-    if (countSafeNums === boardSize **2 - minesToMiss) victory()
+    
     
         
    
@@ -95,7 +96,7 @@ function renderBoardWithItems(board) {
             var BombCount = countBombs(i, j, board) + ''
             if (board[i][j].isFirst) strHTML += `<td class ="hidden-first" onclick="removeHidden(this)" onload ="timer()"  oncontextmenu= "rightClick(this)"> ${BombCount}</td>`
             else if (board[i][j].isMine) strHTML += `<td  class = "bomb" onclick="showBomb(this)" oncontextmenu= "rightClick(this)">${BOMB}</td>`
-            else strHTML += `<td class ="hidden" onclick="removeHidden(this),happy()" oncontextmenu= "rightClick(this)">${BombCount}</td>`
+            else strHTML += `<td class ="hidden" onclick="removeHidden(this)" oncontextmenu= "rightClick(this)">${BombCount}</td>`
 
         }
     }
@@ -105,8 +106,16 @@ function renderBoardWithItems(board) {
 
 
 function removeHidden(el) {
+    if (el.innerHTML) 
+        
+    
     el.classList.remove('hidden')
     countSafeNums++
+    console.log(countSafeNums);
+    if ( countSafeNums === boardSize**2 - minesToMiss){
+        victory()
+        
+    } 
 
 }
 
