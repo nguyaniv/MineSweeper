@@ -106,10 +106,10 @@ function renderBoardWithItems(board) {
 
 
 function removeHidden(el) {
-    if (el.innerHTML) 
-        
     
+        
     el.classList.remove('hidden')
+    el.onclick = false;
     countSafeNums++
     console.log(countSafeNums);
     if ( countSafeNums === boardSize**2 - minesToMiss){
@@ -125,6 +125,7 @@ function showBomb(el) {
     LIFE--
     health()
     document.querySelector('.smile').innerHTML = '<img onclick="resetGame()" src="imgs/sad.png">'
+    el.onclick = false;
     if (LIFE == 0) {
         gameOver()
     }
