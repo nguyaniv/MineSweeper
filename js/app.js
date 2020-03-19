@@ -1,12 +1,16 @@
 
+'use strict'
 var gBoard;
 var boardSize = 8
 var BOMB = ''
 var LIFE;
 var lifeDOM = document.querySelector('.heart')
 var gMines = 12
+var minestoMiss = 12
+
 var time = document.querySelector('.timer')
 var timerIntreval;
+var countSafeNums = 0
 
 function init() {
     document.querySelector('.smile').innerHTML = '<img onclick="resetGame()" src="imgs/normal.png">'
@@ -17,6 +21,7 @@ function init() {
     }, false);
     LIFE = 3
     health()
+    victory()
 
 }
 
@@ -93,6 +98,7 @@ function renderBoardWithItems(board) {
 
 function removeHidden(el) {
     el.classList.remove('hidden')
+    countSafeNums++
 
 }
 
@@ -144,7 +150,7 @@ function hint(el) {
 }
 
 function health() {
-    strHTML = ''
+ var strHTML = ''
     var lifeDOM = document.querySelector('.heart')
     for (var i = 0; i < LIFE; i++)  strHTML += '<img src="imgs/heart.png"></img>'
     lifeDOM.innerHTML = strHTML
@@ -155,18 +161,21 @@ function health() {
 function easy() {
     boardSize = 4
     gMines = 2
+    minestoMiss = 2
     init()
 }
 
 function medium() {
     boardSize = 8
     gMines = 12
+     minestoMiss = 12
     init()
 }
 
 function hard() {
     boardSize = 12
     gMines = 30
+    minestoMiss = 30
     init()
 }
 
@@ -192,7 +201,7 @@ function UpdateWithBombs(board) {
 
         var randomNumI = getRandomInteger(0, boardSize -1)
         var randomNumJ = getRandomInteger(0, boardSize -1)
-        console.log(randomNumI);
+       
         
         
         if (newBoard[randomNumI][randomNumJ].isMine) continue
@@ -215,5 +224,33 @@ function timer() {
           time.innerHTML =`<h2> time : ${s} </h2> `
       }, 1000)
 
+}
+
+
+
+// function countBombs(cellI, cellJ, mat) {
+//     var bombsSum = 0;
+//     for (var i = cellI - 1; i <= cellI + 1; i++) {
+//         if (i < 0 || i >= mat.length) continue;
+//         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
+//             if (i === cellI && j === cellJ) continue;
+//             if (j < 0 || j >= mat[i].length) continue;
+//             if (mat[i][j].isMine) bombsSum++;
+//         }
+//     }
+//     return bombsSum;
+// }
+
+
+// function hint(el) {
+    
+// }
+
+
+function victory() {
+   var vic = boardSize **2 - minestoMiss
+console.log(vic);
+
+    
 
 }
