@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700&display=swap" rel="stylesheet">
+
+    <title>Minesweeper Game</title>
+</head>
+
+<body onload="init()">
+
+
+
+   
+    
+    <div class="container">
+        <h1>MineSweeper</h1>
+        <div class="btnLevel">
+            <button onclick="easy()" class="easy">easy</button>
+            <button onclick="medium()" class="medium">medium</button>
+            <button onclick="hard()" class="hard">hard</button></div>
+    
+        <table>
+            <div class="smile"></div>
+            <div class="heart"></div>
+            <tbody class="minSweeper">
+
+            </tbody>
+
+        </table>
+        <div class="hints">
+            <div onclick="hint(this)" class="hint"><img src="imgs/idea.png"></div>
+            <div onclick="hint(this)" class="hint"><img src="imgs/idea.png"></div>
+            <div onclick="hint(this)" class="hint"><img src="imgs/idea.png"></div>
+        </div>
+    </div>
+    <script src="js/utils.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

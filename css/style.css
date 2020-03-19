@@ -1,0 +1,155 @@
+body { 
+  background-color: lightslategrey;;
+}
+table { 
+
+  margin-left:auto ;
+  margin-right: auto;
+  margin-top: none;
+  text-align: center;
+
+  width: 400px;
+}
+
+td  {
+    border: 2px solid gray;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 150px;
+    height: 80px;
+    text-align: center;
+    box-shadow: -1px 1px 11px 1px rgba(0,0,0,1);   
+     
+}
+
+
+.hidden {
+background-color:  lightslategrey;
+font-variant: none;
+color: lightslategrey;
+font-display: none;
+
+}
+
+.hiddenImg { 
+  display: none;
+}
+
+h1 {
+  font-weight: 800;
+  font-family: 'Inconsolata', monospace;
+  text-align: center;
+  
+
+}
+
+
+
+.reset { 
+  display: none;
+  margin-left: 47%;
+}
+
+.minSweeper {
+ cursor: pointer;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+
+.smile {
+  margin-left: 48%;
+  margin-top: 5%;
+  margin-bottom: 3%;
+  
+  width: fit-content;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.container {
+  
+  width:fit-content;
+  margin: auto auto;
+  padding-left: 0%;
+  padding-right: 0%;
+  background-color: lightslategrey;
+  padding-bottom: 3%;
+}
+
+
+.hint { 
+  margin-top: 3%;
+  margin-left: 15%;
+  display:inline-block;
+  margin-bottom: none;
+}
+
+img{ 
+  cursor: pointer;
+  margin: none;
+}
+
+.heart img {
+  margin-left: 10%;
+  display:inline-block;
+
+}
+.heart {
+  text-align: center;
+}
+
+.btnLevel { 
+  text-align: center;
+}
+
+button{ 
+  padding: 2%;
+border: 2px solid black;
+border-radius: 5%;
+cursor: pointer;
+}
+
+.easy { 
+  background-color:limegreen;
+}
+
+.medium { 
+  background-color: orange;
+}
+
+.hard {
+  background-color:orangered;
+}
+
+.hints { 
+  margin-left:10%;
+}
+
+
+
+
+
+/* border: 2px solid gray;
+padding-left: 30px;
+padding-right: 30px;
+width: 150px;
+height: 60px;
+text-align: center;
+box-shadow:  */
+
+
+/* td {
+  border: 2px solid gray;
+  padding-left: 30px;
+  padding-right: 30px;
+  width: 150px;
+  height: 60px;
+  text-align: center;
+  box-shadow: -1px 1px 11px 1px rgba(0,0,0,1);
+} */
