@@ -5,8 +5,8 @@ var BOMB = ''
 var LIFE;
 var lifeDOM = document.querySelector('.heart')
 var gMines = 12
-
-
+var time = document.querySelector('.timer')
+var timerIntreval;
 
 function init() {
     document.querySelector('.smile').innerHTML = '<img onclick="resetGame()" src="imgs/normal.png">'
@@ -63,6 +63,8 @@ function leftClick(el) {
     newBoard[+eleI][+eleJ].isFirst = true
     //update DOM
     renderBoardWithItems(newBoard)
+    timer()
+
 
     //    document.querySelector('.hidden first').classList.remove('hidden first')
     return el
@@ -115,7 +117,7 @@ function gameOver() {
     for (var i = 0; i < hiddens.length; i++) {
         hiddens[i].classList.remove('hidden')
     }
-
+    clearInterval(timerIntreval)
 
 }
 
@@ -200,4 +202,18 @@ function UpdateWithBombs(board) {
 
 
     return newBoard;
+}
+
+function timer() {
+    var s = 0 
+    var m = 0
+
+      
+    time.innerHTML =`<h2> time :  ${s} </h2> `
+      timerIntreval = setInterval(function() {
+          s +=1 
+          time.innerHTML =`<h2> time : ${s} </h2> `
+      }, 1000)
+
+
 }
