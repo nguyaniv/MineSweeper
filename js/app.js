@@ -52,7 +52,7 @@ function renderBoard(board) {
     for (var i = 0; i < board.length; i++) {
         strHTML += '<tr>'
         for (var j = 0; j < board.length; j++) {
-            var cell = `<td class =${i}-${j} data-i="${i}" data-j="${j}" onclick = "leftClick(this)"></td>`
+            var cell = `<td class =${i}-${j} data-i="${i}" data-j="${j}" onclick = "firstLeftClick(this)"></td>`
             strHTML += cell
         }
     }
@@ -61,7 +61,7 @@ function renderBoard(board) {
 }
 
 
-function leftClick(el) {
+function firstLeftClick(el) {
     //update MODAL
 
     var newBoard = UpdateWithBombs(gBoard)
@@ -76,10 +76,6 @@ function leftClick(el) {
     timer()
     countSafeNums++
     
-    
-        
-   
-
     //    document.querySelector('.hidden first').classList.remove('hidden first')
     return el
 }
@@ -94,29 +90,39 @@ function renderBoardWithItems(board) {
         strHTML += '<tr>'
         for (var j = 0; j < board.length; j++) {
             var BombCount = countBombs(i, j, board) + ''
-            if (board[i][j].isFirst) strHTML += `<td class ="hidden-first" onclick="removeHidden(this)" onload ="timer()"  oncontextmenu= "rightClick(this)"> ${BombCount}</td>`
-            else if (board[i][j].isMine) strHTML += `<td  class = "bomb" onclick="showBomb(this)" oncontextmenu= "rightClick(this)">${BOMB}</td>`
-            else strHTML += `<td class ="hidden" onclick="removeHidden(this)" oncontextmenu= "rightClick(this)">${BombCount}</td>`
-
+            
+            if (board[i][j].isFirst) strHTML += `<td class ="hidden-first" data-i="${i}" data-j="${j}" onclick="removeHidden(this)" onload ="timer()"  oncontextmenu= "rightClick(this)"> ${BombCount}</td>`
+            else if (board[i][j].isMine) strHTML += `<td  class = "bomb" data-i="${i}" data-j="${j}" onclick="showBomb(this)" oncontextmenu= "rightClick(this)">${BOMB}</td>`
+            else strHTML += `<td class ="hidden" onclick="removeHidden(this)" data-i="${i}" data-j="${j}" data-board="${board}" oncontextmenu= "rightClick(this)">${BombCount}</td>`
+               
+               
         }
     }
     strHTML += '</tr>'
+    
+    
     document.querySelector('.minSweeper').innerHTML = strHTML
 }
 
 
 function removeHidden(el) {
-    
-        
+
     el.classList.remove('hidden')
     el.onclick = false;
     countSafeNums++
     console.log(countSafeNums);
-    if ( countSafeNums === boardSize**2 - minesToMiss){
+    el.oncontextmenu = false
+    if (countSafeNums === boardSize ** 2 - minesToMiss){
         victory()
         
     } 
+    if (el.innerText=== '0') el.style.color = 'blue'
+    if (el.innerText=== '1') el.style.color = 'green'
+    if (el.innerText=== '2') el.style.color = 'yellow'
+    if (el.innerText=== '3') el.style.color = 'red'
+    if (el.innerText=== '4') el.style.color = 'red'
 
+        
 }
 
 
@@ -129,38 +135,50 @@ function showBomb(el) {
     if (LIFE == 0) {
         gameOver()
     }
+    el.oncontextmenu = false
 }
 
+
+function rightClick(el) {
+    if (el.innerHTML === '<img src="imgs/flag.png">') {
+
+        if (el.getAttribute('class') === 'hidden'){
+            el.innerHTML = countBombs(el.getAttribute('data-i'), el.getAttribute('data-i'), el.getAttribute('data-board'))
+
+        } 
+
+        else if (el.getAttribute('class') === 'bomb'){
+            el.innerHTML = ''
+            el.onclick = true
+            
+        } 
+    }
+
+    else el.innerHTML = '<img src="imgs/flag.png">'
+    el.onclick = false;
+       
+}
+
+function resetGame() {
+    init()
+}
 function gameOver() {
 
-    var bombs = document.querySelectorAll(".bomb")
-    for (var i = 0; i < bombs.length; i++) {
-        bombs[i].innerHTML = '<img src="imgs/bomb.png">'
-    }
-    var hiddens = document.querySelectorAll(".hidden")
-    for (var i = 0; i < hiddens.length; i++) {
-        hiddens[i].classList.remove('hidden')
-    }
+    showAll()
     clearInterval(timerIntreval)
 
 }
 
 
 function victory() {
-   
+
     clearInterval(timerIntreval)
     document.querySelector('.smile').innerHTML = '<img onclick="resetGame()" src="imgs/cool.png">'
+    showAll()
 
 }
 
 
-function rightClick(el) {
-    el.innerHTML = '<img src="imgs/flag.png">'
-}
-
-function resetGame() {
-    init()
-}
 
 
 
@@ -176,7 +194,7 @@ function hint(el) {
 }
 
 function health() {
- var strHTML = ''
+    var strHTML = ''
     var lifeDOM = document.querySelector('.heart')
     for (var i = 0; i < LIFE; i++)  strHTML += '<img src="imgs/heart.png"></img>'
     lifeDOM.innerHTML = strHTML
@@ -190,7 +208,7 @@ function easy() {
     minesToMiss = 2
     init()
     clearInterval(timerIntreval)
-    time.innerHTML =`<h2> time :  0 </h2> `
+    time.innerHTML = `<h2> time :  0 </h2> `
 }
 
 function medium() {
@@ -199,7 +217,7 @@ function medium() {
     minesToMiss = 12
     init()
     clearInterval(timerIntreval)
-    time.innerHTML =`<h2> time :  0 </h2> `
+    time.innerHTML = `<h2> time :  0 </h2> `
 }
 
 function hard() {
@@ -208,7 +226,7 @@ function hard() {
     minesToMiss = 30
     init()
     clearInterval(timerIntreval)
-    time.innerHTML =`<h2> time :  0 </h2> `
+    time.innerHTML = `<h2> time :  0 </h2> `
 
 }
 
@@ -229,33 +247,26 @@ function UpdateWithBombs(board) {
 
     }
 
-    
+
     while (gMines !== 0) {
 
-        var randomNumI = getRandomInteger(0, boardSize -1)
-        var randomNumJ = getRandomInteger(0, boardSize -1)
-       
-        
-        
+        var randomNumI = getRandomInteger(0, boardSize - 1)
+        var randomNumJ = getRandomInteger(0, boardSize - 1)
         if (newBoard[randomNumI][randomNumJ].isMine) continue
         newBoard[randomNumI][randomNumJ].isMine = true
         gMines--
     }
-
-
     return newBoard;
 }
 
 function timer() {
-    var s = 0 
+    var s = 0
     var m = 0
-
-      
-    time.innerHTML =`<h2> time :  ${s} </h2> `
-      timerIntreval = setInterval(function() {
-          s +=1 
-          time.innerHTML =`<h2> time : ${s} </h2> `
-      }, 1000)
+    time.innerHTML = `<h2> time :  ${s} </h2> `
+    timerIntreval = setInterval(function () {
+        s += 1
+        time.innerHTML = `<h2> time : ${s} </h2> `
+    }, 1000)
 
 }
 
@@ -276,7 +287,22 @@ function timer() {
 
 
 // function hint(el) {
-    
+
 // }
 
 
+function showAll() {
+    var bombs = document.querySelectorAll('.bomb')
+    for (var i = 0; i < bombs.length; i++) {
+        bombs[i].innerHTML = '<img src="imgs/bomb.png">'
+        bombs[i].style.pointerEvents = "none";
+
+    }
+    var hiddens = document.querySelectorAll(".hidden")
+    for (var i = 0; i < hiddens.length; i++) {
+        hiddens[i].classList.remove('hidden')
+        hiddens[i].style.pointerEvents = 'none';
+
+    }
+    
+}
