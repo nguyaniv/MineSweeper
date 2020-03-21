@@ -76,12 +76,8 @@ function firstLeftClick(el) {
     timer()
     countSafeNums++
     
-    //    document.querySelector('.hidden first').classList.remove('hidden first')
     return el
 }
-
-
-// isMine:  (Math.random() > 0.9) ? true : false
 
 
 function renderBoardWithItems(board) {
@@ -90,39 +86,49 @@ function renderBoardWithItems(board) {
         strHTML += '<tr>'
         for (var j = 0; j < board.length; j++) {
             var BombCount = countBombs(i, j, board) + ''
-            
-            if (board[i][j].isFirst) strHTML += `<td class ="hidden-first" data-i="${i}" data-j="${j}" onclick="removeHidden(this)" onload ="timer()"  oncontextmenu= "rightClick(this)"> ${BombCount}</td>`
-            else if (board[i][j].isMine) strHTML += `<td  class = "bomb" data-i="${i}" data-j="${j}" onclick="showBomb(this)" oncontextmenu= "rightClick(this)">${BOMB}</td>`
-            else strHTML += `<td class ="hidden" onclick="removeHidden(this)" data-i="${i}" data-j="${j}" data-board="${board}" oncontextmenu= "rightClick(this)">${BombCount}</td>`
-               
-               
+
+            if (board[i][j].isFirst) strHTML +=
+            `<td class ="hidden-first" data-i="${i}" 
+            data-j="${j}" onclick="removeHidden(this)" onload ="timer()"
+               oncontextmenu= "rightClick(this)"> ${BombCount}</td>`
+
+            else if (board[i][j].isMine) strHTML += `<td  class = "bomb" 
+              data-i="${i}" data-j="${j}" onclick="showBomb(this)"
+               oncontextmenu= "rightClick(this)">${BOMB}</td>`
+                                                else strHTML += `<td class ="hidden" onclick="removeHidden(this)"
+               data-i="${i}" data-j="${j}" data-board="${board}" oncontextmenu= "rightClick(this)">${BombCount}</td>`
+
+
         }
     }
     strHTML += '</tr>'
-    
-    
+
+
     document.querySelector('.minSweeper').innerHTML = strHTML
+    var firstClicked = document.querySelector('.hidden-first').oncontextmenu = false
+
 }
 
 
 function removeHidden(el) {
-
+    el.style.backgroundColor = '#57a647'
     el.classList.remove('hidden')
     el.onclick = false;
     countSafeNums++
     console.log(countSafeNums);
     el.oncontextmenu = false
-    if (countSafeNums === boardSize ** 2 - minesToMiss){
+    
+    if (countSafeNums === boardSize ** 2 - minesToMiss) {
         victory()
-        
-    } 
-    if (el.innerText=== '0') el.style.color = 'blue'
-    if (el.innerText=== '1') el.style.color = 'green'
-    if (el.innerText=== '2') el.style.color = 'yellow'
-    if (el.innerText=== '3') el.style.color = 'red'
-    if (el.innerText=== '4') el.style.color = 'red'
 
-        
+    }
+    if (el.innerText === '0') el.style.color = 'blue'
+    if (el.innerText === '1') el.style.color = 'green'
+    if (el.innerText === '2') el.style.color = 'yellow'
+    if (el.innerText === '3') el.style.color = 'red'
+    if (el.innerText === '4') el.style.color = 'red'
+
+
 }
 
 
@@ -132,6 +138,7 @@ function showBomb(el) {
     health()
     document.querySelector('.smile').innerHTML = '<img onclick="resetGame()" src="imgs/sad.png">'
     el.onclick = false;
+    el.style.backgroundColor = 'red'
     if (LIFE == 0) {
         gameOver()
     }
@@ -142,21 +149,22 @@ function showBomb(el) {
 function rightClick(el) {
     if (el.innerHTML === '<img src="imgs/flag.png">') {
 
-        if (el.getAttribute('class') === 'hidden'){
+        if (el.getAttribute('class') === 'hidden') {
             el.innerHTML = countBombs(el.getAttribute('data-i'), el.getAttribute('data-i'), el.getAttribute('data-board'))
 
-        } 
+        }
 
-        else if (el.getAttribute('class') === 'bomb'){
-            el.innerHTML = ''
-            el.onclick = true
+        else if (el.getAttribute('class') === 'bomb') {
+            el.innerHTML = `${BOMB}`
             
-        } 
+            console.log(el)
+
+        }
     }
 
     else el.innerHTML = '<img src="imgs/flag.png">'
     el.onclick = false;
-       
+
 }
 
 function resetGame() {
@@ -232,8 +240,6 @@ function hard() {
 
 
 
-
-
 function UpdateWithBombs(board) {
     var newBoard = copyMat(board);
     for (var i = 0; i < board.length; i++) {
@@ -271,26 +277,6 @@ function timer() {
 }
 
 
-
-// function countBombs(cellI, cellJ, mat) {
-//     var bombsSum = 0;
-//     for (var i = cellI - 1; i <= cellI + 1; i++) {
-//         if (i < 0 || i >= mat.length) continue;
-//         for (var j = cellJ - 1; j <= cellJ + 1; j++) {
-//             if (i === cellI && j === cellJ) continue;
-//             if (j < 0 || j >= mat[i].length) continue;
-//             if (mat[i][j].isMine) bombsSum++;
-//         }
-//     }
-//     return bombsSum;
-// }
-
-
-// function hint(el) {
-
-// }
-
-
 function showAll() {
     var bombs = document.querySelectorAll('.bomb')
     for (var i = 0; i < bombs.length; i++) {
@@ -304,5 +290,5 @@ function showAll() {
         hiddens[i].style.pointerEvents = 'none';
 
     }
-    
+
 }
